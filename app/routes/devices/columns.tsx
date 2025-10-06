@@ -20,8 +20,8 @@ export const columns: ColumnDef<Data>[] = [
       <DataTableColumnHeader column={column} title='Status' />
     ),
     cell: ({ row }) => {
-      const hasConnFailure = row.getValue('connFailure');
-      const className = hasConnFailure ? 'text-yellow-600' : 'text-gray-300';
+      const data = row.original;
+      const className = data.commFailure ? 'text-yellow-600' : 'text-gray-300';
 
       return (
         <div className='flex justify-center'>
