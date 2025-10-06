@@ -1,0 +1,99 @@
+import { type ColumnDef } from '@tanstack/react-table';
+import {
+  FileText,
+  Trash2,
+  TriangleAlert,
+  type LucideProps,
+} from 'lucide-react';
+
+import { DataTableColumnHeader } from '~/components/table/data-table-column-header';
+import type { Data } from '~/routes/devices/data';
+
+const iconProps: LucideProps = {
+  size: 18,
+};
+
+export const columns: ColumnDef<Data>[] = [
+  {
+    id: 'status',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Status' />
+    ),
+    cell: ({ row }) => {
+      const hasConnFailure = row.getValue('connFailure');
+      const className = hasConnFailure ? 'text-yellow-600' : 'text-gray-300';
+
+      return (
+        <div className='flex justify-center'>
+          <TriangleAlert className={className} {...iconProps} />
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'isEnabled',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Habilitado' />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className='text-center'>
+          {row.getValue('isEnabled') ? 'Sim' : 'Não'}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'model',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Modelo' />
+    ),
+    cell: ({ row }) => {
+      return <div className='text-center'>{row.getValue('model')}</div>;
+    },
+  },
+  {
+    accessorKey: 'lastComm',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Última Comunicação' />
+    ),
+    cell: ({ row }) => {
+      return <div className='text-center'>{row.getValue('lastComm')}</div>;
+    },
+  },
+  {
+    accessorKey: 'serialId',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Número de Série' />
+    ),
+    cell: ({ row }) => {
+      return <div className='text-center'>{row.getValue('serialId')}</div>;
+    },
+  },
+  {
+    id: 'data',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Dados' />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className='flex justify-center'>
+          <FileText className='cursor-pointer' {...iconProps} />
+        </div>
+      );
+    },
+  },
+  {
+    id: 'delete',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Excluir' />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className='flex justify-center'>
+          <Trash2 className='cursor-pointer text-red-600' {...iconProps} />
+        </div>
+      );
+    },
+  },
+];
