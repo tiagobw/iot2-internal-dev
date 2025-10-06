@@ -14,6 +14,16 @@ export default [
         route('/add-gateway', './routes/devices/add-gateway.tsx'),
       ]),
     ]),
+    ...prefix('devices-data/:id', [
+        layout('routes/devices-data/layout.tsx', [
+          index('routes/devices-data/home.tsx'),
+          ...prefix('read-data', [
+            index(
+              'routes/devices-data/read-data/home.tsx',
+            ),
+          ]),
+      ]),
+    ]),
   ]),
   layout('components/auth/require-not-auth.tsx', [
     layout('./routes/login/login-layout.tsx', [

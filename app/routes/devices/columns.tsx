@@ -5,6 +5,7 @@ import {
   TriangleAlert,
   type LucideProps,
 } from 'lucide-react';
+import { Link } from 'react-router';
 
 import { DataTableColumnHeader } from '~/components/table/data-table-column-header';
 import type { Data } from '~/routes/devices/use-data';
@@ -76,9 +77,13 @@ export const columns: ColumnDef<Data>[] = [
       <DataTableColumnHeader column={column} title='Dados' />
     ),
     cell: ({ row }) => {
+      const data = row.original;
+
       return (
         <div className='flex justify-center'>
-          <FileText className='cursor-pointer' {...iconProps} />
+          <Link to={`devices-data/${data.id}/read-data`}>
+            <FileText className='cursor-pointer' {...iconProps} />
+          </Link>
         </div>
       );
     },

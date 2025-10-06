@@ -1,4 +1,10 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+} from 'react';
 import useAxios from 'axios-hooks';
 
 import { setupInterceptors } from '~/lib/axios';
@@ -60,15 +66,18 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
     }
   }, [isLoggedIn, executeLogout]);
 
-  const login = async (credentials: LoginCredentials): Promise<void> => {
-    try {
-      await executeLogin({ data: credentials });
-      setIsLoggedIn(true);
-    } catch (error) {
-      setIsLoggedIn(false);
-      throw error;
-    }
-  };
+  const login = useCallback(
+    async (credentials: LoginCredentials): Promise<void> => {
+      try {
+        await executeLogin({ data: credentials });
+        setIsLoggedIn(true);
+      } catch (error) {
+        setIsLoggedIn(false);
+        throw error;
+      }
+    },
+    [executeLogin],
+  );
 
   useEffect(() => {
     localStorage.setItem(IS_LOGGED_IN_KEY, JSON.stringify(isLoggedIn));
@@ -78,12 +87,15 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
     setupInterceptors(logout);
   }, [logout]);
 
-  const value: AuthContextType = {
-    isLoggedIn,
-    login,
-    logout,
-    isLoading: loginLoading || logoutLoading,
-  };
+  const value: AuthContextType = useMemo(
+    () => ({
+      isLoggedIn,
+      login,
+      logout,
+      isLoading: loginLoading || logoutLoading,
+    }),
+    [isLoggedIn, login, loginLoading, logout, logoutLoading],
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
