@@ -1,6 +1,5 @@
 import { Outlet, useNavigate } from 'react-router';
 
-import { data } from '~/routes/devices/data';
 import { columns } from './columns';
 import { DataTable } from './data-table';
 import {
@@ -12,9 +11,11 @@ import {
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
 import { Button } from '~/components/ui/button';
+import { useData } from '~/routes/devices/use-data';
 
 export default function Layout() {
   const navigate = useNavigate();
+  const { data } = useData();
 
   const additionalAction = (
     <DropdownMenu>

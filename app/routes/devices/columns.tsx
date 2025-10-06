@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 
 import { DataTableColumnHeader } from '~/components/table/data-table-column-header';
-import type { Data } from '~/routes/devices/data';
+import type { Data } from '~/routes/devices/use-data';
 
 const iconProps: LucideProps = {
   size: 18,
