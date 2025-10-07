@@ -1,0 +1,2 @@
+/api/* https://iot2.allexo.com.br:44310/api/:splat 200!
+/*    /index.html   200
