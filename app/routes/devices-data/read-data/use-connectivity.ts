@@ -14,7 +14,6 @@ export type DataFromApi = {
   mobile_iccid: string;
   mobile_technology: string;
   mobile_rssi: string;
-  mobile_restored: boolean;
   wifi_enabled: boolean;
   wifi_status: string;
   wifi_ssid: string;
@@ -34,7 +33,6 @@ export type Data = {
   mobileIccid: string;
   mobileTechnology: string;
   mobileRssi: string;
-  mobileRestored: string;
   wifiEnabled: string;
   wifiStatus: string;
   wifiSsid: string;
@@ -75,7 +73,6 @@ export const useConnectivity = (deviceId: number | null) => {
             mobileIccid: data.mobile_iccid,
             mobileTechnology: data.mobile_technology,
             mobileRssi: data.mobile_rssi,
-            mobileRestored: data.mobile_restored ? 'Sim' : 'Não',
             wifiEnabled: data.wifi_enabled ? 'Sim' : 'Não',
             wifiStatus: data.wifi_status,
             wifiSsid: data.wifi_ssid,
@@ -94,7 +91,6 @@ export const useConnectivity = (deviceId: number | null) => {
             mobileIccid: '-',
             mobileTechnology: '-',
             mobileRssi: '-',
-            mobileRestored: '-',
             wifiEnabled: '-',
             wifiStatus: '-',
             wifiSsid: '-',

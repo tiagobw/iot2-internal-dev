@@ -175,10 +175,6 @@ export default function ReadDataHome() {
               value: connectivityData.mobileRssi,
             },
             {
-              title: 'Restaurado',
-              value: connectivityData.mobileRestored,
-            },
-            {
               title: 'WiFi',
               isSubtitle: true,
             },
