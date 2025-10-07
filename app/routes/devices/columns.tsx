@@ -79,9 +79,17 @@ export const columns: ColumnDef<Data>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
+      if (data.screenType === '-') {
+        return <div className='text-center'>-</div>;
+      }
+
+      const modelAndSerialId = `${data.model} - ${data.serialId}`;
+
       return (
         <div className='flex justify-center'>
-          <Link to={`devices-data/${data.id}/read-data`}>
+          <Link
+            to={`devices-data/${data.id}/read-data?name=${modelAndSerialId}`}
+          >
             <FileText className='cursor-pointer' {...iconProps} />
           </Link>
         </div>

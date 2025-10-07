@@ -1,5 +1,5 @@
 import { ArrowLeft } from 'lucide-react';
-import { Link, Outlet, useParams } from 'react-router';
+import { Link, Outlet, useParams, useSearchParams } from 'react-router';
 
 import NavMenuTitle from '~/components/layout/nav-menu-title';
 import NavMenu, { NAV_LINK_PADDING } from '~/components/nav-menu';
@@ -7,13 +7,16 @@ import NavMenu, { NAV_LINK_PADDING } from '~/components/nav-menu';
 export default function DevicesDataLayout() {
   const params = useParams();
   const { id } = params;
+  const [searchParams] = useSearchParams();
+  const name = searchParams.get('name');
+
   const navigationLinks = [
     {
-      to: `/devices-data/${id}/read-data`,
+      to: `/devices-data/${id}/read-data?name=${name}`,
       content: 'Ler Dados',
     },
     {
-      to: `/devices-data/${id}/program`,
+      to: `/devices-data/${id}/program?name=${name}`,
       content: 'Programar',
     },
   ];
@@ -25,7 +28,7 @@ export default function DevicesDataLayout() {
           <div
             className={`flex items-center gap-2 font-semibold ${NAV_LINK_PADDING}`}
           >
-            <ArrowLeft /> Voltar
+            <ArrowLeft /> Voltar [{name}]
           </div>
         </Link>
         <NavMenu navigationLinks={navigationLinks} />
