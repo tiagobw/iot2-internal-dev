@@ -13,6 +13,8 @@ export type DataFromApi = {
   freq2_pub_value: string;
   ea1_error: boolean;
   ea2_error: boolean;
+  ea1_mask: string;
+  ea2_mask: string;
   ea1_pub_value: string;
   ea2_pub_value: string;
 };
@@ -27,6 +29,8 @@ export type Data = {
   freq2_pub_value: string;
   ea1_error: string;
   ea2_error: string;
+  ea1_mask: string;
+  ea2_mask: string;
   ea1_pub_value: string;
   ea2_pub_value: string;
 };
@@ -62,6 +66,8 @@ export const useIosPublishing = (deviceId: number | null) => {
             freq2_pub_value: data.freq2_pub_value,
             ea1_error: data.ea1_error ? 'Sim' : 'Não',
             ea2_error: data.ea2_error ? 'Sim' : 'Não',
+            ea1_mask: data.ea1_mask,
+            ea2_mask: data.ea2_mask,
             ea1_pub_value: data.ea1_pub_value,
             ea2_pub_value: data.ea2_pub_value,
           }
@@ -75,6 +81,8 @@ export const useIosPublishing = (deviceId: number | null) => {
             freq2_pub_value: '-',
             ea1_error: '-',
             ea2_error: '-',
+            ea1_mask: '-',
+            ea2_mask: '-',
             ea1_pub_value: '-',
             ea2_pub_value: '-',
           },

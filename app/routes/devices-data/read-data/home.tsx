@@ -435,8 +435,8 @@ export default function ReadDataHome() {
             },
             { title: 'Erro AI 1', value: iosPublishingData.ea1_error },
             { title: 'Erro AI 2', value: iosPublishingData.ea2_error },
-            { title: 'AI 1 máscara', value: 'TODO' },
-            { title: 'AI 2 máscara', value: 'TODO' },
+            { title: 'AI 1 máscara', value: iosPublishingData.ea1_mask },
+            { title: 'AI 2 máscara', value: iosPublishingData.ea2_mask },
             { title: 'AI 1 valor', value: iosPublishingData.ea1_pub_value },
             { title: 'AI 2 valor', value: iosPublishingData.ea2_pub_value },
           ]}
