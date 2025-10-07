@@ -2,8 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { usePost } from '~/hooks/api/use-post';
-import { displayToast } from '~/utils/toast/toast';
 import {
   FormField,
   FormItem,
@@ -14,11 +12,11 @@ import {
 } from '~/components/ui/form';
 import { Card } from '~/components/ui/card';
 import { Tooltip } from '~/components/tooltip';
-import { CloudUpload } from 'lucide-react';
-import { AlertDialog } from '~/components/alert-dialog';
+import { CloudDownload } from 'lucide-react';
 import { LoaderCircle } from '~/components/loader-circle';
 import { useDriversList } from '~/routes/devices-data/read-data/use-drivers-list';
 import Select from '~/components/select';
+import { usePublishDrivers } from '~/routes/devices-data/read-data/use-publish-drivers';
 
 const OptionSchema = z.object({
   id: z.union([z.string(), z.number()]),
@@ -37,55 +35,40 @@ export type PublishDriversProps = {
 };
 
 export function PublishDrivers({ deviceId }: PublishDriversProps) {
-  const { data: driversList, isLoading: isLoadingDriversList } =
-    useDriversList(deviceId);
-  const { executePost } = usePost('alx_cmd_driver_data_pub');
   const form = useForm<FormValues>({
     mode: 'onChange',
     resolver: zodResolver(formSchema),
   });
-  const isSubmitting = form.formState.isSubmitting;
-
-  async function onSubmit(data: FormValues) {
-    try {
-      const body = {
-        device_id: deviceId,
-        driver_id: data.driver.id === 'all' ? null : Number(data.driver.id),
-      };
-      await executePost({
-        data: body,
-      });
-      displayToast({
-        type: 'success',
-        message: 'Comando executado com sucesso.',
-      });
-    } catch (error) {
-      displayToast({ error });
-    }
-  }
+  const { data: driversList, isLoading: isLoadingDriversList } =
+    useDriversList(deviceId);
+  const { callback, isLoading: isLoadingPublishDrivers } = usePublishDrivers(
+    deviceId,
+    form.watch('driver')?.id === 'all'
+      ? null
+      : Number(form.watch('driver')?.id),
+  );
 
   return (
     <Card className='flex flex-col items-center w-full sm:w-100 p-8'>
+      <div className='flex gap-4'>
+        <h3 className='font-bold'>Publicar dados do(s) driver(s)</h3>
+        <Tooltip asChild text='Requisitar Dados'>
+          <button
+            type='button'
+            onClick={callback}
+            disabled={
+              isLoadingDriversList ||
+              isLoadingPublishDrivers ||
+              !form.watch('driver')
+            }
+            className={`flex justify-center items-center cursor-pointer disabled:text-gray-300 disabled:pointer-events-none text-blue-600`}
+          >
+            {isLoadingPublishDrivers ? <LoaderCircle /> : <CloudDownload />}
+          </button>
+        </Tooltip>
+      </div>
       <Form {...form}>
         <form className='flex flex-col items-center w-full gap-6'>
-          <div className='flex items-center gap-4'>
-            <h3 className='font-bold'>Publicar dados do(s) driver(s)</h3>
-            <AlertDialog
-              title='Confirma a execução do comando?'
-              onClick={() => form.handleSubmit(onSubmit)()}
-              trigger={
-                <button
-                  className={`flex justify-center items-center cursor-pointer disabled:text-gray-300 disabled:pointer-events-none text-blue-600`}
-                  disabled={Boolean(!form.formState.isValid) || isSubmitting}
-                  type='button'
-                >
-                  <Tooltip asChild text='Enviar programação'>
-                    {isSubmitting ? <LoaderCircle /> : <CloudUpload />}
-                  </Tooltip>
-                </button>
-              }
-            />
-          </div>
           <FormField
             control={form.control}
             name='driver'
@@ -101,6 +84,7 @@ export function PublishDrivers({ deviceId }: PublishDriversProps) {
                     onChange={field.onChange}
                     placeholder='Selecione'
                     isLoading={isLoadingDriversList}
+                    isDisabled={isLoadingDriversList || isLoadingPublishDrivers}
                   />
                 </FormControl>
                 <FormMessage />
