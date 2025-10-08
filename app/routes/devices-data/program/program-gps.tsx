@@ -60,7 +60,7 @@ export function ProgramGps({ deviceId }: Props) {
       const body = {
         device_id: deviceId,
         enabled: data.gpsEnabled,
-        time: data.gpsTime,
+        time: Number(data.gpsTime),
       };
       await executePost({
         data: body,
