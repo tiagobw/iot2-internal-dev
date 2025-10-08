@@ -24,7 +24,7 @@ export function DataTablePagination<TData>({
 }: DataTablePaginationProps<TData>) {
   return (
     <div className='flex items-center justify-between px-2'>
-      <div className='flex items-center lg:justify-end flex-wrap gap-2 lg:gap-4'>
+      <div className='flex items-center lg:justify-end flex-wrap gap-2'>
         <div className='flex flex-col lg:flex-row items-center gap-2 space-x-2'>
           <p className='text-center text-sm font-medium order-2 lg:-order-1'>
             Linhas por página
@@ -48,7 +48,7 @@ export function DataTablePagination<TData>({
           </Select>
         </div>
         <div className='flex flex-col lg:flex-row justify-center items-center gap-2'>
-          <div className='flex w-[100px] items-center justify-center text-center text-sm font-medium'>
+          <div className='flex w-32 items-center justify-center text-center text-sm font-medium'>
             Página {table.getState().pagination.pageIndex + 1} de{' '}
             {table.getPageCount()}
           </div>
