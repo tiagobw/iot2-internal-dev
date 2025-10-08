@@ -7,7 +7,6 @@ export type DataFromApi = {
   enabled: boolean;
   qos: number;
   retain: boolean;
-  status: string;
   host: string;
   port: number;
   user: string;
@@ -20,7 +19,6 @@ export type Data = {
   mqttEnabled: boolean;
   mqttQos: SelectOption;
   mqttRetain: boolean;
-  mqttStatus: string;
   mqttHost: string;
   mqttPort: string;
   mqttUser: string;
@@ -58,7 +56,6 @@ export const useProgramMqtt = (deviceId: number | null) => {
                 (option) => option.value === String(data.qos),
               ) || MQTT_QOS_OPTIONS[0],
             mqttRetain: data.retain,
-            mqttStatus: data.status,
             mqttHost: data.host,
             mqttPort: String(data.port),
             mqttUser: data.user,
