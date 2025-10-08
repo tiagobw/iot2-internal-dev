@@ -15,13 +15,12 @@ export default [
       ]),
     ]),
     ...prefix('devices-data/:id', [
-        layout('routes/devices-data/layout.tsx', [
-          index('routes/devices-data/home.tsx'),
-          ...prefix('read-data', [
-            index(
-              'routes/devices-data/read-data/home.tsx',
-            ),
-          ]),
+      layout('routes/devices-data/layout.tsx', [
+        index('routes/devices-data/home.tsx'),
+        ...prefix('read-data', [
+          index('routes/devices-data/read-data/home.tsx'),
+        ]),
+        ...prefix('program', [index('routes/devices-data/program/home.tsx')]),
       ]),
     ]),
   ]),
