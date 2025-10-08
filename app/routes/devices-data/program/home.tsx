@@ -20,7 +20,7 @@ export default function ReadDataHome() {
   const deviceId = Number(id);
 
   return (
-    <div className='flex flex-wrap gap-4 w-full my-4 px-4'>
+    <div className='flex justify-center flex-wrap gap-4 w-full my-4 px-4'>
       <div className='flex flex-col w-full lg:w-fit gap-4'>
         <ProgramMobile deviceId={deviceId} />
         <ProgramWifi deviceId={deviceId} />
