@@ -26,9 +26,12 @@ export default function DevicesDataLayout() {
       <div className='flex justify-between items-center bg-gray-100 pb-2 px-4 lg:px-16'>
         <Link to='/' prefetch='intent'>
           <div
-            className={`flex items-center gap-2 font-semibold ${NAV_LINK_PADDING}`}
+            className={`flex flex-col lg:flex-row items-center gap-2 font-semibold ${NAV_LINK_PADDING}`}
           >
-            <ArrowLeft /> Voltar [{name}]
+            <span className='flex items-center gap-1'>
+              <ArrowLeft /> Voltar
+            </span>{' '}
+            <span>[{name}]</span>
           </div>
         </Link>
         <NavMenu navigationLinks={navigationLinks} />
