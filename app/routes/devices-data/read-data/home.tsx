@@ -155,6 +155,10 @@ export default function ReadDataHome() {
               value: connectivityData.mobileNet,
             },
             {
+              title: 'APN',
+              value: connectivityData.mobileApn,
+            },
+            {
               title: 'Usuário',
               value: connectivityData.mobileUser,
             },
