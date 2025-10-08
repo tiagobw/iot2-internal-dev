@@ -29,7 +29,7 @@ export const useProgramGps = (deviceId: number | null) => {
       data
         ? {
             gpsEnabled: Boolean(data.enabled),
-            gpsTime: data.time ?? '',
+            gpsTime: String(data.time) ?? '',
           }
         : undefined,
     [data],
