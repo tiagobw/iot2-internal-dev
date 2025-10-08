@@ -1,6 +1,6 @@
 import { Outlet, useNavigate } from 'react-router';
 
-import { columns } from './columns';
+import { getColumns } from './columns';
 import { DataTable } from './data-table';
 import {
   DropdownMenu,
@@ -12,10 +12,22 @@ import {
 } from '~/components/ui/dropdown-menu';
 import { Button } from '~/components/ui/button';
 import { useData } from '~/routes/devices/use-data';
+import { useDelete } from '~/hooks/api/use-delete';
+
+export type OutletContext = Pick<
+  ReturnType<typeof useData>,
+  'data' | 'executeGet'
+>;
 
 export default function Layout() {
+  const { executeDelete } = useDelete('');
   const navigate = useNavigate();
-  const { data } = useData();
+  const { data, executeGet } = useData();
+
+  const handleDelete = async (id: string | number) => {
+    await executeDelete(`devices/${id}`);
+    await executeGet();
+  };
 
   const additionalAction = (
     <DropdownMenu>
@@ -30,7 +42,9 @@ export default function Layout() {
         <DropdownMenuItem onClick={() => navigate('/add-gateway')}>
           Gateway
         </DropdownMenuItem>
-        <DropdownMenuItem>Dispositivo do Gateway</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => navigate('/add-gateway-driver')}>
+          Driver do Gateway
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -38,11 +52,11 @@ export default function Layout() {
   return (
     <div className='container p-10'>
       <DataTable
-        columns={columns}
+        columns={getColumns(handleDelete)}
         data={data}
         additionalAction={additionalAction}
       />
-      <Outlet />
+      <Outlet context={{ data, executeGet }} />
     </div>
   );
 }

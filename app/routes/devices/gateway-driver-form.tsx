@@ -6,7 +6,6 @@ import { useNavigate, useOutletContext } from 'react-router';
 import type { OutletContext } from './layout';
 import Select from '~/components/select';
 import { Input } from '~/components/ui/input';
-import { useDevices } from '~/routes/devices/use-devices';
 import { usePost } from '~/hooks/api/use-post';
 import { useIsLoading } from '~/hooks/use-is-loading';
 import { displayToast } from '~/utils/toast/toast';
@@ -19,6 +18,8 @@ import {
   Form,
 } from '~/components/ui/form';
 import { Button } from '~/components/button';
+import { useDrivers } from '~/routes/devices/use-drivers';
+import { useGatewaySerialList } from '~/routes/devices/use-gateway-serial-list';
 
 const OptionSchema = z.object({
   id: z.union([z.string(), z.number()]),
@@ -28,24 +29,32 @@ const OptionSchema = z.object({
 
 const formSchema = z.object({
   device: OptionSchema,
-  serialNumber: z.string().min(1, {
+  gatewaySerialNumber: OptionSchema,
+  modbusAddress: z.string().min(1, {
+    message: 'Campo obrigatório.',
+  }),
+  timeout: z.string().min(1, {
     message: 'Campo obrigatório.',
   }),
 });
 
 export type FormValues = z.infer<typeof formSchema>;
 
-export function GatewayForm() {
+export function GatewayDriverForm() {
   const { executeGet } = useOutletContext<OutletContext>();
   const navigate = useNavigate();
-  const { data: devicesList, isLoading: isLoadingDevicesList } = useDevices();
-  const { executePost } = usePost('devices');
+  const { data: devicesList, isLoading: isLoadingDevicesList } = useDrivers();
+  const { data: gatewaySerialList, isLoading: isLoadingGatewaySerialList } =
+    useGatewaySerialList();
+  const { executePost } = usePost('drivers');
   const form = useForm<FormValues>({
     mode: 'onChange',
     resolver: zodResolver(formSchema),
     defaultValues: {
       device: undefined,
-      serialNumber: '',
+      gatewaySerialNumber: undefined,
+      modbusAddress: '',
+      timeout: '',
     },
   });
   const isLoading = useIsLoading(form.formState.isSubmitting);
@@ -53,8 +62,11 @@ export function GatewayForm() {
   async function onSubmit(data: FormValues) {
     try {
       const body = {
-        serial_id: data.serialNumber,
-        value: data.device.value,
+        model: data.device.label,
+        serial_id: data.gatewaySerialNumber.value,
+        json_file: data.device.value,
+        modbus_address: Number(data.modbusAddress),
+        time_out: Number(data.timeout),
       };
       await executePost({
         data: body,
@@ -97,12 +109,46 @@ export function GatewayForm() {
         />
         <FormField
           control={form.control}
-          name='serialNumber'
+          name='gatewaySerialNumber'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Número de Série</FormLabel>
+              <FormLabel>Gateway Serial Number</FormLabel>
               <FormControl>
-                <Input id='serialNumber' {...field} />
+                <Select
+                  id={field.name}
+                  name={field.name}
+                  options={gatewaySerialList}
+                  value={field.value}
+                  onChange={field.onChange}
+                  isLoading={isLoadingGatewaySerialList}
+                  placeholder='Selecione'
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='modbusAddress'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Endereço Modbus</FormLabel>
+              <FormControl>
+                <Input id='modbusAddress' type='number' max={255} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='timeout'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Timeout</FormLabel>
+              <FormControl>
+                <Input id='timeout' type='number' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

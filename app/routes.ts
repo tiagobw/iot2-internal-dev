@@ -12,6 +12,7 @@ export default [
       layout('./routes/devices/layout.tsx', [
         index('./routes/devices/home.tsx'),
         route('/add-gateway', './routes/devices/add-gateway.tsx'),
+        route('/add-gateway-driver', './routes/devices/add-gateway-driver.tsx'),
       ]),
     ]),
     ...prefix('devices-data/:id', [
