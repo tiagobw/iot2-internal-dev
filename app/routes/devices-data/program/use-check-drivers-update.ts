@@ -17,7 +17,7 @@ export type DriversData = {
   needUpdate: string;
 };
 
-const URL = 'alx_pgr_drivers_update';
+const URL = 'alx_prg_drivers_update';
 
 export const useCheckDriversUpdate = (deviceId: number | null) => {
   const [{ data, loading: isLoading, error }, executeGet] = useAxios<
