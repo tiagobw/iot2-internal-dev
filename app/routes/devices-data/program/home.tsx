@@ -1,5 +1,6 @@
 import { useParams } from 'react-router';
 import { ApnPassword } from '~/routes/devices-data/program/apn-password';
+import { CheckDriversUpdate } from '~/routes/devices-data/program/check-drivers-update';
 
 import { CommandsCard } from '~/routes/devices-data/program/commands-card';
 import { ForceDigitalOutputs } from '~/routes/devices-data/program/force-digital-outputs';
@@ -28,6 +29,7 @@ export default function ReadDataHome() {
       </div>
       <div className='flex flex-col w-full lg:w-fit gap-4'>
         <CommandsCard deviceId={deviceId} />
+        <CheckDriversUpdate deviceId={deviceId} />
         <ProgramRs deviceId={deviceId} />
       </div>
       <div className='flex flex-col w-full lg:w-fit gap-4'>
