@@ -280,7 +280,6 @@ export function SendModbus({ deviceId }: Props) {
           </div>
           <BitsTable
             headerData={[
-              '32',
               '31',
               '30',
               '29',
