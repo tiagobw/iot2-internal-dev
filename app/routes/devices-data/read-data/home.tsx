@@ -208,6 +208,23 @@ export default function ReadDataHome() {
             },
           ]}
         />
+        <InfoCard
+          isLoading={isLoadingGpsPublishingData}
+          headerData={{
+            title: 'Publicação GPS',
+            getDataCallback: getGpsPublishingCallback,
+          }}
+          bodyData={[
+            {
+              title: 'Habilitado',
+              value: gpsPublishingData.enabled,
+            },
+            {
+              title: 'Periodicidade',
+              value: gpsPublishingData.time,
+            },
+          ]}
+        />
       </div>
       <div className='flex flex-col w-full lg:w-fit gap-4'>
         <InfoCard
@@ -446,23 +463,6 @@ export default function ReadDataHome() {
           ]}
         />
         <PublishDrivers deviceId={deviceId} />
-        <InfoCard
-          isLoading={isLoadingGpsPublishingData}
-          headerData={{
-            title: 'Publicação GPS',
-            getDataCallback: getGpsPublishingCallback,
-          }}
-          bodyData={[
-            {
-              title: 'Habilitado',
-              value: gpsPublishingData.enabled,
-            },
-            {
-              title: 'Periodicidade',
-              value: gpsPublishingData.time,
-            },
-          ]}
-        />
       </div>
     </div>
   );
