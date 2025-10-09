@@ -2,10 +2,10 @@ import { useMemo } from 'react';
 import useAxios from 'axios-hooks';
 
 export type DataFromApi = {
-  bytes_tx: string;
-  bytes_rx: string;
+  bytes_tx: string | null;
+  bytes_rx: string | null;
   error: string | null;
-  value: number;
+  value: number | null;
   bits: number[];
 };
 
@@ -34,12 +34,12 @@ export const useSendModbus = () => {
     () =>
       data
         ? {
-            bytesTx: data.bytes_tx,
-            bytesRx: data.bytes_rx,
-            error: data.error || '-',
-            value: data.value.toString(),
-            bits32to16: data.bits.slice(0, 16).map((bit) => bit.toString()),
-            bits15to00: data.bits.slice(16, 32).map((bit) => bit.toString()),
+            bytesTx: data.bytes_tx === null ? '-' : String(data.bytes_tx),
+            bytesRx: data.bytes_rx === null ? '-' : String(data.bytes_rx),
+            error: data.error === null ? '-' : String(data.error),
+            value: data.value === null ? '-' : String(data.value),
+            bits32to16: data.bits.slice(0, 16).map((bit) => String(bit)),
+            bits15to00: data.bits.slice(16, 32).map((bit) => String(bit)),
           }
         : undefined,
     [data],
