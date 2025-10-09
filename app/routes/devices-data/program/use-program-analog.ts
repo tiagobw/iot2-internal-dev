@@ -14,8 +14,8 @@ export type Data = {
 };
 
 export const ANALOG_OPTIONS: SelectOption[] = [
-  { label: '0 - 10 V', value: 'false', id: 'false' },
-  { label: '4 - 20 mA', value: 'true', id: 'true' },
+  { label: '0 - 10 V', value: 'true', id: 'true' },
+  { label: '4 - 20 mA', value: 'false', id: 'false' },
 ];
 
 export const useProgramAnalog = (deviceId: number | null) => {
