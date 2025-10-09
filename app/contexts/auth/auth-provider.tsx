@@ -43,31 +43,14 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
     { manual: true },
   );
 
-  const [{ loading: logoutLoading }, executeLogout] = useAxios(
-    {
-      url: 'logout',
-      method: 'POST',
-    },
-    { manual: true },
-  );
-
   const logout = useCallback(async () => {
     const currentlyLoggedIn = JSON.parse(
       localStorage.getItem(IS_LOGGED_IN_KEY) || 'false',
     );
     if (!currentlyLoggedIn) return;
 
-    try {
-      await executeLogout();
-    } catch (error) {
-      console.error(
-        'Logout request failed, but clearing session locally.',
-        error,
-      );
-    } finally {
-      setIsLoggedIn(false);
-    }
-  }, [executeLogout]);
+    setIsLoggedIn(false);
+  }, []);
 
   const login = useCallback(
     async (credentials: LoginCredentials): Promise<void> => {
@@ -95,9 +78,9 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
       isLoggedIn,
       login,
       logout,
-      isLoading: loginLoading || logoutLoading,
+      isLoading: loginLoading,
     }),
-    [isLoggedIn, login, loginLoading, logout, logoutLoading],
+    [isLoggedIn, login, loginLoading, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
