@@ -6,13 +6,11 @@ import { LoaderCircle } from '~/components/loader-circle';
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '~/components/ui/table';
-import { Fragment } from 'react/jsx-runtime';
 import type { DriversData } from '~/routes/devices-data/read-data/use-drivers-status';
 
 type Props = {
