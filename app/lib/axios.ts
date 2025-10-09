@@ -10,10 +10,23 @@ export const setupInterceptors = (logout: () => void) => {
   axios.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {
-      if (error.response?.status === 401) {
-        console.log('Session expired or invalid. Logging out.');
+      if (!error.response) {
+        return Promise.reject(error);
+      }
+
+      const { status, data } = error.response;
+
+      const isUnauthorized = status === 401;
+
+      const responseBodyAsString = JSON.stringify(data).toLowerCase();
+      const hasTokenErrorMessage =
+        status >= 400 && status < 500 && responseBodyAsString.includes('token');
+
+      if (isUnauthorized || hasTokenErrorMessage) {
+        console.log('Authentication error detected. Logging out.');
         logout();
       }
+
       return Promise.reject(error);
     },
   );
