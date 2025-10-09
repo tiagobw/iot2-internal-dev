@@ -37,6 +37,17 @@ export type Data = {
 
 const URL = 'alx_cmd_ios_pub';
 
+const mapDiMask = (value: string) => {
+  const map = {
+    '0': 'Nenhum',
+    '1': 'Transição',
+    '2': 'Contador',
+    '3': 'Frequência',
+  };
+
+  return map[value as keyof typeof map] || '-';
+};
+
 export const useIosPublishing = (deviceId: number | null) => {
   const [{ data, loading: isLoading, error }, executeGet] =
     useAxios<DataFromApi>(
@@ -58,8 +69,8 @@ export const useIosPublishing = (deviceId: number | null) => {
       data && !isLoading
         ? {
             time: data.time,
-            di1_mask: data.di1_mask,
-            di2_mask: data.di2_mask,
+            di1_mask: mapDiMask(String(data.di1_mask)),
+            di2_mask: mapDiMask(String(data.di2_mask)),
             ct1_pub_value: data.ct1_pub_value,
             ct2_pub_value: data.ct2_pub_value,
             freq1_pub_value: data.freq1_pub_value,
