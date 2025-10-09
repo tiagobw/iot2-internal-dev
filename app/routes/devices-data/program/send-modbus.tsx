@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { usePost } from '~/hooks/api/use-post';
 import { displayToast } from '~/utils/toast/toast';
 import {
   FormField,
@@ -18,7 +17,64 @@ import { CloudUpload } from 'lucide-react';
 import { Input } from '~/components/ui/input';
 import { LoaderCircle } from '~/components/loader-circle';
 import { AlertDialog } from '~/components/alert-dialog';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '~/components/ui/table';
 import Select, { type SelectOption } from '~/components/select';
+import { useSendModbus } from '~/routes/devices-data/program/use-send-modbus';
+import { Label } from '~/components/ui/label';
+
+function BitsTable({
+  headerData,
+  tableData,
+}: {
+  headerData: string[];
+  tableData: string[];
+}) {
+  return (
+    <div className='flex flex-col gap-1 items-center w-full'>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {headerData.map((header) => (
+              <TableHead
+                key={header}
+                className='text-center border-r last:border-0'
+              >
+                {header}
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {tableData?.length > 0 ? (
+            <TableRow>
+              {tableData.map((item) => (
+                <TableCell
+                  key={item}
+                  className='text-center border-r last:border-0'
+                >
+                  {item}
+                </TableCell>
+              ))}
+            </TableRow>
+          ) : (
+            <TableRow>
+              <TableCell colSpan={headerData?.length} className='text-center'>
+                Não há dados
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
 
 const SERIAL_MODBUS_COMMAND_OPTIONS: SelectOption[] = [
   { id: '3', value: '3', label: '3' },
@@ -51,7 +107,7 @@ export type Props = {
 };
 
 export function SendModbus({ deviceId }: Props) {
-  const { executePost } = usePost('alx_prg_modbus_command');
+  const { data, executeGet } = useSendModbus();
   const form = useForm<FormValues>({
     mode: 'onChange',
     resolver: zodResolver(formSchema),
@@ -68,7 +124,7 @@ export function SendModbus({ deviceId }: Props) {
 
   async function onSubmit(data: FormValues) {
     try {
-      const body = {
+      const params = {
         device_id: deviceId,
         modbus_address: Number(data.serialModbusAddress),
         function: Number(data.serialModbusCommand?.value),
@@ -76,8 +132,8 @@ export function SendModbus({ deviceId }: Props) {
         variable_type: data.serialModbusVariableType?.value,
         time_out: Number(data.serialModbusTimeout),
       };
-      await executePost({
-        data: body,
+      await executeGet({
+        params,
       });
       displayToast({
         type: 'success',
@@ -89,7 +145,7 @@ export function SendModbus({ deviceId }: Props) {
   }
 
   return (
-    <Card className='flex flex-col items-center w-full sm:w-100 p-8'>
+    <Card className='flex flex-col items-center w-full sm:w-fit p-8'>
       <Form {...form}>
         <form className='flex flex-col items-center w-full gap-6'>
           <div className='flex items-center gap-4'>
@@ -205,6 +261,65 @@ export function SendModbus({ deviceId }: Props) {
                 <FormMessage />
               </FormItem>
             )}
+          />
+          <div className='flex justify-between items-center w-full gap-2'>
+            <Label className='w-1/2'>Byes TX</Label>
+            <span className='w-1/2'>{data?.bytesTx ?? '-'}</span>
+          </div>
+          <div className='flex justify-between items-center w-full gap-2'>
+            <Label className='w-1/2'>Byes RX</Label>
+            <span className='w-1/2'>{data?.bytesRx ?? '-'}</span>
+          </div>
+          <div className='flex justify-between items-center w-full gap-2'>
+            <Label className='w-1/2'>Erro</Label>
+            <span className='w-1/2'>{data?.error ?? '-'}</span>
+          </div>
+          <div className='flex justify-between items-center w-full gap-2'>
+            <Label className='w-1/2'>Valor</Label>
+            <span className='w-1/2'>{data?.value ?? '-'}</span>
+          </div>
+          <BitsTable
+            headerData={[
+              '32',
+              '31',
+              '30',
+              '29',
+              '28',
+              '27',
+              '26',
+              '25',
+              '24',
+              '23',
+              '22',
+              '21',
+              '20',
+              '19',
+              '18',
+              '17',
+              '16',
+            ]}
+            tableData={data?.bits32to16 ?? []}
+          />
+          <BitsTable
+            headerData={[
+              '15',
+              '14',
+              '13',
+              '12',
+              '11',
+              '10',
+              '09',
+              '08',
+              '07',
+              '06',
+              '05',
+              '04',
+              '03',
+              '02',
+              '01',
+              '00',
+            ]}
+            tableData={data?.bits15to00 ?? []}
           />
         </form>
       </Form>
