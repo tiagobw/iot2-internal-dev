@@ -87,15 +87,7 @@ export function LoginForm({
                 name='password'
                 render={({ field }) => (
                   <FormItem>
-                    <div className='flex items-center'>
-                      <FormLabel>Senha</FormLabel>
-                      <a
-                        href='#'
-                        className='ml-auto text-sm underline-offset-4 hover:underline'
-                      >
-                        Esqueceu a Senha?
-                      </a>
-                    </div>
+                    <FormLabel>Senha</FormLabel>
                     <div className='relative'>
                       <FormControl>
                         <Input
