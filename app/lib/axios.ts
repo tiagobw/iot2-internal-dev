@@ -7,7 +7,7 @@ export const axios = axiosLibrary.create({
 });
 
 export const setupInterceptors = (logout: () => void) => {
-  axios.interceptors.response.use(
+  const interceptorId = axios.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {
       if (!error.response) {
@@ -30,6 +30,12 @@ export const setupInterceptors = (logout: () => void) => {
       return Promise.reject(error);
     },
   );
+
+  return interceptorId;
+};
+
+export const ejectInterceptors = (interceptorId: number) => {
+  axios.interceptors.response.eject(interceptorId);
 };
 
 configure({ axios });

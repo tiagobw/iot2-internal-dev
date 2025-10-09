@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import useAxios from 'axios-hooks';
 
-import { setupInterceptors } from '~/lib/axios';
+import { ejectInterceptors, setupInterceptors } from '~/lib/axios';
 
 const IS_LOGGED_IN_KEY = 'isLoggedIn';
 
@@ -84,7 +84,11 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   }, [isLoggedIn]);
 
   useEffect(() => {
-    setupInterceptors(logout);
+    const interceptorId = setupInterceptors(logout);
+
+    return () => {
+      ejectInterceptors(interceptorId);
+    };
   }, [logout]);
 
   const value: AuthContextType = useMemo(
