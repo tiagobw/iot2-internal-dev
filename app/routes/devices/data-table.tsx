@@ -21,17 +21,20 @@ import {
 } from '~/components/ui/table';
 import { Input } from '~/components/ui/input';
 import { DataTablePagination } from '~/components/table/data-table-pagination';
+import { LoaderCircle } from '~/components/loader-circle';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   additionalAction?: React.ReactNode;
+  isLoading?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   additionalAction,
+  isLoading,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = React.useState('');
@@ -91,7 +94,18 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isLoading ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
+                  <div className='flex justify-center'>
+                    <LoaderCircle />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows?.length > 0 ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -120,9 +134,11 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className='flex items-center justify-center sm:justify-end space-x-2 py-4'>
-        <DataTablePagination table={table} />
-      </div>
+      {table.getRowModel().rows?.length > 0 && (
+        <div className='flex items-center justify-center sm:justify-end space-x-2 py-4'>
+          <DataTablePagination table={table} />
+        </div>
+      )}
     </div>
   );
 }

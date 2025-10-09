@@ -22,7 +22,7 @@ export type OutletContext = Pick<
 export default function Layout() {
   const { executeDelete } = useDelete('');
   const navigate = useNavigate();
-  const { data, executeGet } = useData();
+  const { data, executeGet, isLoading } = useData();
 
   const handleDelete = async (id: string | number) => {
     await executeDelete(`devices/${id}`);
@@ -55,6 +55,7 @@ export default function Layout() {
         columns={getColumns(handleDelete)}
         data={data}
         additionalAction={additionalAction}
+        isLoading={isLoading}
       />
       <Outlet context={{ data, executeGet }} />
     </div>
