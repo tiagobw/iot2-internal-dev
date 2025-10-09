@@ -96,7 +96,7 @@ export function CommandsCard({ deviceId }: Props) {
   ];
 
   return (
-    <Card className='flex flex-col items-center w-full sm:w-100 p-8'>
+    <Card className='flex flex-col items-center w-full sm:w-110 p-8'>
       <div className='flex gap-4'>
         <h3 className='font-bold'>Comandos</h3>
       </div>
