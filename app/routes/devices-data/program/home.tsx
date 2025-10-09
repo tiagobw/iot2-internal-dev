@@ -26,23 +26,21 @@ export default function ReadDataHome() {
         <ProgramMobile deviceId={deviceId} />
         <ProgramWifi deviceId={deviceId} />
         <ProgramMqtt deviceId={deviceId} />
+        <ProgramAnalog deviceId={deviceId} />
+        <ProgramGps deviceId={deviceId} />
       </div>
       <div className='flex flex-col w-full lg:w-fit gap-4'>
         <CommandsCard deviceId={deviceId} />
         <CheckDriversUpdate deviceId={deviceId} />
         <ProgramRs deviceId={deviceId} />
+        <ProgramIo deviceId={deviceId} />
       </div>
       <div className='flex flex-col w-full lg:w-fit gap-4'>
+        <SendModbus deviceId={deviceId} />
         <ApnPassword deviceId={deviceId} />
         <ProgramOta deviceId={deviceId} />
-        <SendModbus deviceId={deviceId} />
         <ForceDigitalOutputs deviceId={deviceId} />
         <ResetCounters deviceId={deviceId} />
-      </div>
-      <div className='flex flex-col w-full lg:w-fit gap-4'>
-        <ProgramAnalog deviceId={deviceId} />
-        <ProgramIo deviceId={deviceId} />
-        <ProgramGps deviceId={deviceId} />
       </div>
     </div>
   );
