@@ -33,9 +33,9 @@ export type Data = {
 
 export const DI_MASK_OPTIONS: SelectOption[] = [
   { label: 'Nenhum', value: '0', id: '0' },
-  { label: 'Contador', value: '1', id: '1' },
-  { label: 'Frequência', value: '2', id: '2' },
-  { label: 'Transição', value: '3', id: '3' },
+  { label: 'Transição', value: '1', id: '1' },
+  { label: 'Contador', value: '2', id: '2' },
+  { label: 'Frequência', value: '3', id: '3' },
 ];
 
 export const ERROR_AI_OPTIONS: SelectOption[] = [
