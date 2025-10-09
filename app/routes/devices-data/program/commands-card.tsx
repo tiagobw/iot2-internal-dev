@@ -26,10 +26,6 @@ export function CommandsCard({ deviceId }: Props) {
   const { executePost: executeOta, isLoadingPost: isLoadingOta } = usePost(
     'alx_prg_ota_execute',
   );
-  const {
-    executePost: executeDriversUpdate,
-    isLoadingPost: isLoadingDriversUpdate,
-  } = usePost('alx_prg_drivers_update');
 
   const data = [
     {
@@ -96,19 +92,6 @@ export function CommandsCard({ deviceId }: Props) {
         ),
       isLoading: isLoadingOta,
       text: 'Forçar OTA',
-    },
-    {
-      onClick: async () =>
-        await withTryCatchAndToast(
-          async () =>
-            await executeDriversUpdate({
-              data: {
-                device_id: deviceId,
-              },
-            }),
-        ),
-      isLoading: isLoadingDriversUpdate,
-      text: 'Verificar Atualização de Drivers',
     },
   ];
 
