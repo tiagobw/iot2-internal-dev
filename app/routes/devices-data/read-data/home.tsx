@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 
-import { DriversCard } from '~/routes/devices-data/read-data/drivers-card';
+import { DriversStatus } from '~/routes/devices-data/read-data/drivers-status';
 import { InfoCard } from '~/routes/devices-data/read-data/info-card';
 import { useAnalogStatus } from '~/routes/devices-data/read-data/use-analog-status';
 import { useConnectivity } from '~/routes/devices-data/read-data/use-connectivity';
@@ -373,7 +373,7 @@ export default function ReadDataHome() {
         />
       </div>
       <div className='flex flex-col w-full lg:w-fit gap-4'>
-        <DriversCard
+        <DriversStatus
           headerData={{
             title: 'Drivers',
             getDataCallback: getDriversStatusCallback,

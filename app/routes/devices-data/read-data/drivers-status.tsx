@@ -22,7 +22,7 @@ type Props = {
   tableData: DriversData[];
 };
 
-export function DriversCard({ headerData, tableData, isLoading }: Props) {
+export function DriversStatus({ headerData, tableData, isLoading }: Props) {
   return (
     <Card className='flex flex-col items-center w-full p-8'>
       <div className='flex gap-4'>
