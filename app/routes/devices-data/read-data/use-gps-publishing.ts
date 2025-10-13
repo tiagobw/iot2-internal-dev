@@ -36,7 +36,7 @@ export const useGpsPublishing = (deviceId: number | null) => {
       data && !isLoading
         ? {
             enabled: data.enabled ? 'Sim' : 'Não',
-            time: data.time ? 'Sim' : 'Não',
+            time: data.time,
           }
         : {
             enabled: '-',
