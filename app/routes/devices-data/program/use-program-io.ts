@@ -45,7 +45,10 @@ export const ERROR_AI_OPTIONS: SelectOption[] = [
 
 export const AI_OPTIONS: SelectOption[] = [
   { label: 'Nenhum', value: '0', id: '0' },
-  { label: 'Habilitado', value: '1', id: '1' },
+  { label: 'Relativo', value: '1', id: '1' },
+  { label: 'Maior', value: '2', id: '2' },
+  { label: 'Menor', value: '3', id: '3' },
+  { label: 'Igual', value: '4', id: '4' },
 ];
 
 export const useProgramIo = (deviceId: number | null) => {
