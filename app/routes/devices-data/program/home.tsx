@@ -4,6 +4,7 @@ import { CheckDriversUpdate } from '~/routes/devices-data/program/check-drivers-
 
 import { CommandsCard } from '~/routes/devices-data/program/commands-card';
 import { ForceDigitalOutputs } from '~/routes/devices-data/program/force-digital-outputs';
+import { ForceOta } from '~/routes/devices-data/program/force-ota';
 import { ProgramAnalog } from '~/routes/devices-data/program/program-analog';
 import { ProgramGps } from '~/routes/devices-data/program/program-gps';
 import { ProgramIo } from '~/routes/devices-data/program/program-io';
@@ -32,6 +33,7 @@ export default function ReadDataHome() {
       <div className='flex flex-col w-full lg:w-fit gap-4'>
         <CommandsCard deviceId={deviceId} />
         <CheckDriversUpdate deviceId={deviceId} />
+        <ForceOta deviceId={deviceId} />
         <ProgramRs deviceId={deviceId} />
         <ProgramIo deviceId={deviceId} />
       </div>

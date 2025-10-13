@@ -23,9 +23,6 @@ export function CommandsCard({ deviceId }: Props) {
   } = usePost('alx_prg_gateway_factory');
   const { executePost: executeReset, isLoadingPost: isLoadingReset } =
     usePost('alx_prg_reset');
-  const { executePost: executeOta, isLoadingPost: isLoadingOta } = usePost(
-    'alx_prg_ota_execute',
-  );
 
   const data = [
     {
@@ -79,19 +76,6 @@ export function CommandsCard({ deviceId }: Props) {
         ),
       isLoading: isLoadingReset,
       text: 'Forçar Reset',
-    },
-    {
-      onClick: async () =>
-        await withTryCatchAndToast(
-          async () =>
-            await executeOta({
-              data: {
-                device_id: deviceId,
-              },
-            }),
-        ),
-      isLoading: isLoadingOta,
-      text: 'Forçar OTA',
     },
   ];
 
