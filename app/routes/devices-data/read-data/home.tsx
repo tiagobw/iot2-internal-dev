@@ -14,6 +14,8 @@ import { useOtaStatus } from '~/routes/devices-data/read-data/use-ota-status';
 import { useRsStatus } from '~/routes/devices-data/read-data/use-rs-status';
 import { PublishDrivers } from '~/routes/devices-data/read-data/publish-drivers';
 import { useGpsPublishing } from '~/routes/devices-data/read-data/use-gps-publishing';
+import { IoEvents } from '~/routes/devices-data/read-data/io-events';
+import { useIoEvents } from '~/routes/devices-data/read-data/use-io-events';
 
 export default function ReadDataHome() {
   const params = useParams();
@@ -54,6 +56,8 @@ export default function ReadDataHome() {
     isLoading: isLoadingDriversStatusData,
     callback: getDriversStatusCallback,
   } = useDriversStatus(deviceId);
+  const { data: ioEventsData, isLoading: isLoadingIoEventsData } =
+    useIoEvents(deviceId);
   const {
     data: rsStatusData,
     isLoading: isLoadingRsStatusData,
@@ -380,6 +384,11 @@ export default function ReadDataHome() {
           }}
           tableData={driversStatusData}
           isLoading={isLoadingDriversStatusData}
+        />
+        <IoEvents
+          headerData={{ title: 'Eventos de IOs' }}
+          tableData={ioEventsData}
+          isLoading={isLoadingIoEventsData}
         />
         <InfoCard
           isLoading={isLoadingRsStatusData}
