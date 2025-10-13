@@ -2,6 +2,7 @@ import { useCallback, useMemo } from 'react';
 import useAxios from 'axios-hooks';
 
 import { withTryCatchAndToast } from '~/routes/devices-data/read-data/with-try-catch-and-toast';
+import { formatNumber } from '~/utils/format-number';
 
 export type DataFromApi = {
   time: string;
@@ -48,6 +49,18 @@ const mapDiMask = (value: string) => {
   return map[value as keyof typeof map] || '-';
 };
 
+const mapEaMask = (value: string) => {
+  const map = {
+    '0': 'Nenhum',
+    '1': 'Relativo',
+    '2': 'Maior',
+    '3': 'Menor',
+    '4': 'Igual',
+  };
+
+  return map[value as keyof typeof map] || '-';
+};
+
 export const useIosPublishing = (deviceId: number | null) => {
   const [{ data, loading: isLoading, error }, executeGet] =
     useAxios<DataFromApi>(
@@ -77,10 +90,10 @@ export const useIosPublishing = (deviceId: number | null) => {
             freq2_pub_value: data.freq2_pub_value,
             ea1_error: data.ea1_error ? 'Sim' : 'Não',
             ea2_error: data.ea2_error ? 'Sim' : 'Não',
-            ea1_mask: data.ea1_mask,
-            ea2_mask: data.ea2_mask,
-            ea1_pub_value: data.ea1_pub_value,
-            ea2_pub_value: data.ea2_pub_value,
+            ea1_mask: mapEaMask(String(data.ea1_mask)),
+            ea2_mask: mapEaMask(String(data.ea2_mask)),
+            ea1_pub_value: formatNumber(data.ea1_pub_value),
+            ea2_pub_value: formatNumber(data.ea2_pub_value),
           }
         : {
             time: '-',
