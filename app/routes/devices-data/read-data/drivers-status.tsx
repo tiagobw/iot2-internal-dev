@@ -38,7 +38,7 @@ export function DriversStatus({ headerData, tableData, isLoading }: Props) {
           </button>
         </Tooltip>
       </div>
-      <div className='flex flex-col gap-1 items-center w-full'>
+      <div className='flex flex-col gap-1 items-center w-full max-h-56'>
         <Table>
           <TableHeader>
             <TableRow>
