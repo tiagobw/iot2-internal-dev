@@ -229,6 +229,7 @@ export default function ReadDataHome() {
             },
           ]}
         />
+        <PublishDrivers deviceId={deviceId} />
       </div>
       <div className='flex flex-col w-full lg:w-fit gap-4'>
         <InfoCard
@@ -471,7 +472,6 @@ export default function ReadDataHome() {
             { title: 'AI 2 valor', value: iosPublishingData.ea2_pub_value },
           ]}
         />
-        <PublishDrivers deviceId={deviceId} />
       </div>
     </div>
   );
