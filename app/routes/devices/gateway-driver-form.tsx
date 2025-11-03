@@ -20,6 +20,7 @@ import {
 import { Button } from '~/components/button';
 import { useDrivers } from '~/routes/devices/use-drivers';
 import { useGatewaySerialList } from '~/routes/devices/use-gateway-serial-list';
+import { useAuth } from '~/contexts/auth/use-auth';
 
 const OptionSchema = z.object({
   id: z.union([z.string(), z.number()]),
@@ -41,6 +42,7 @@ const formSchema = z.object({
 export type FormValues = z.infer<typeof formSchema>;
 
 export function GatewayDriverForm() {
+  const { companyId } = useAuth();
   const { executeGet } = useOutletContext<OutletContext>();
   const navigate = useNavigate();
   const { data: devicesList, isLoading: isLoadingDevicesList } = useDrivers();
@@ -67,6 +69,7 @@ export function GatewayDriverForm() {
         json_file: data.device.value,
         modbus_address: Number(data.modbusAddress),
         time_out: Number(data.timeout),
+        company_id: companyId,
       };
       await executePost({
         data: body,
