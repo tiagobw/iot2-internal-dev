@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import useAxios from 'axios-hooks';
 
+import { useAuth } from '~/contexts/auth/use-auth';
+
 type DataFromApi = {
   id: number;
   model: string;
@@ -26,9 +28,13 @@ export type Data = {
 };
 
 export const useData = () => {
+  const { companyId } = useAuth();
   const [{ data, loading, error }, executeGet] = useAxios<DataFromApi[]>(
     {
       url: 'devices_list',
+      params: {
+        company_id: companyId,
+      },
     },
     {
       useCache: false,
