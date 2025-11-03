@@ -17,6 +17,8 @@ export type LoginCredentials = {
 };
 
 export type AuthContextType = {
+  userId: number;
+  companyId: number;
   isLoggedIn: boolean;
   login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => Promise<void>;
@@ -28,12 +30,14 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
+  const [userId, setUserId] = useState<number | null>(null);
+  const [companyId, setCompanyId] = useState<number | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() =>
     JSON.parse(localStorage.getItem(IS_LOGGED_IN_KEY) || 'false'),
   );
 
   const [{ loading: loginLoading }, executeLogin] = useAxios<
-    void,
+    { user_id: number; company_id: number },
     LoginCredentials
   >(
     {
@@ -55,7 +59,9 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   const login = useCallback(
     async (credentials: LoginCredentials): Promise<void> => {
       try {
-        await executeLogin({ data: credentials });
+        const { data } = await executeLogin({ data: credentials });
+        setUserId(data?.user_id);
+        setCompanyId(data?.company_id);
         setIsLoggedIn(true);
       } catch (error) {
         setIsLoggedIn(false);
@@ -76,11 +82,13 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   const value: AuthContextType = useMemo(
     () => ({
       isLoggedIn,
+      userId: userId!,
+      companyId: companyId!,
       login,
       logout,
       isLoading: loginLoading,
     }),
-    [isLoggedIn, login, loginLoading, logout],
+    [companyId, isLoggedIn, login, loginLoading, logout, userId],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
