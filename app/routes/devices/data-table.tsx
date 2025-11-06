@@ -64,7 +64,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className='w-full lg:max-w-[70vw]'>
-      <div className='flex items-center gap-4 py-4'>
+      <div className='flex items-center gap-4 pb-4'>
         <Input
           placeholder='Filtrar'
           value={globalFilter ?? ''}

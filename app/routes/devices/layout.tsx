@@ -50,7 +50,7 @@ export default function Layout() {
   );
 
   return (
-    <div className='flex justify-center p-6'>
+    <div className='flex justify-center px-6 pb-6'>
       <DataTable
         columns={getColumns(handleDelete)}
         data={data}

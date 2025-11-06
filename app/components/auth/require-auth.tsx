@@ -1,7 +1,7 @@
 import { Navigate, Outlet, useLocation } from 'react-router';
+import Header from '~/components/layout/header';
 
 import { useAuth } from '~/contexts/auth/use-auth';
-// import GlobalLayout from '../layout/global-layout';
 
 export default function RequireAuth() {
   const { isLoggedIn } = useAuth();
@@ -12,8 +12,9 @@ export default function RequireAuth() {
   }
 
   return (
-    // <GlobalLayout>
-    <Outlet />
-    // </GlobalLayout>
+    <>
+      <Header />
+      <Outlet />
+    </>
   );
 }
