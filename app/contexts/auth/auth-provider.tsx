@@ -9,7 +9,19 @@ import useAxios from 'axios-hooks';
 
 import { setOnUnauthorizedCallback } from '~/lib/axios';
 
+const USER_ID_KEY = 'userId';
+const COMPANY_ID_KEY = 'companyId';
 const IS_LOGGED_IN_KEY = 'isLoggedIn';
+
+const getInitialState = <T,>(key: string, defaultValue: T): T => {
+  try {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : defaultValue;
+  } catch (error) {
+    console.warn(`Error parsing localStorage key "${key}":`, error);
+    return defaultValue;
+  }
+};
 
 export type LoginCredentials = {
   user: string;
@@ -30,10 +42,14 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const [userId, setUserId] = useState<number | null>(null);
-  const [companyId, setCompanyId] = useState<number | null>(null);
+  const [userId, setUserId] = useState<number | null>(
+    getInitialState(USER_ID_KEY, null),
+  );
+  const [companyId, setCompanyId] = useState<number | null>(
+    getInitialState(COMPANY_ID_KEY, null),
+  );
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() =>
-    JSON.parse(localStorage.getItem(IS_LOGGED_IN_KEY) || 'false'),
+    getInitialState(IS_LOGGED_IN_KEY, false),
   );
 
   const [{ loading: loginLoading }, executeLogin] = useAxios<
@@ -48,11 +64,8 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   );
 
   const logout = useCallback(async () => {
-    const currentlyLoggedIn = JSON.parse(
-      localStorage.getItem(IS_LOGGED_IN_KEY) || 'false',
-    );
-    if (!currentlyLoggedIn) return;
-
+    setUserId(null);
+    setCompanyId(null);
     setIsLoggedIn(false);
   }, []);
 
@@ -72,8 +85,10 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   );
 
   useEffect(() => {
+    localStorage.setItem(USER_ID_KEY, JSON.stringify(userId));
+    localStorage.setItem(COMPANY_ID_KEY, JSON.stringify(companyId));
     localStorage.setItem(IS_LOGGED_IN_KEY, JSON.stringify(isLoggedIn));
-  }, [isLoggedIn]);
+  }, [companyId, isLoggedIn, userId]);
 
   useEffect(() => {
     setOnUnauthorizedCallback(logout);
