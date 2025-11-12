@@ -19,6 +19,7 @@ import {
   Form,
 } from '~/components/ui/form';
 import { Button } from '~/components/button';
+import { useAuth } from '~/contexts/auth/use-auth';
 
 const OptionSchema = z.object({
   id: z.union([z.string(), z.number()]),
@@ -36,6 +37,7 @@ const formSchema = z.object({
 export type FormValues = z.infer<typeof formSchema>;
 
 export function GatewayForm() {
+  const { companyId } = useAuth();
   const { executeGet } = useOutletContext<OutletContext>();
   const navigate = useNavigate();
   const { data: devicesList, isLoading: isLoadingDevicesList } = useDevices();
@@ -55,6 +57,7 @@ export function GatewayForm() {
       const body = {
         serial_id: data.serialNumber,
         value: data.device.value,
+        company_id: companyId,
       };
       await executePost({
         data: body,
