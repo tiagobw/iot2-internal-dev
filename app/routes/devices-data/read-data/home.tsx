@@ -151,6 +151,10 @@ export default function ReadDataHome() {
               isSubtitle: true,
             },
             {
+              title: 'Habilitado',
+              value: connectivityData.mobileEnabled,
+            },
+            {
               title: 'Status',
               value: `${connectivityData.mobileStatus}`,
             },
